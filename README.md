@@ -6,11 +6,11 @@ After running all the scripts, you can generate the results (figures) by executi
 
 **Essential steps to run the scripts:**
 
-1) It is recommended to use the same version of DDE-Biftool that was used for the computations. You can download DDE-Biftool from: ... 
+1) It is recommended to use the same version of DDE-Biftool that was used for the computations. You can download DDE-Biftool from: https://github.com/asim-alawfi/DDE-Biftool-Package.git
    
-2) Download the repository folder called **Matlab-Supporting-Functions-for-Auditory-Model** from: . 
+2) Download the repository folder called **Matlab-Supporting-Functions-for-Auditory-Model** from: https://github.com/asim-alawfi/Matlab-Supporting-Functions-for-Auditory-Model.git
 
-3) The first script you need to run is `branch_of_sympos_original_case_and_threshold_crossing.m`. Before running it, make sure to check and set the MATLAB path. The path in all these scripts ia: 
+3) The first script you need to run is `branch_of_sympos_original_case_and_threshold_crossing.m`. Before running it, make sure to check and set the MATLAB path. The path in all these scripts is set as follows:
 
    ```matlab
    base = [pwd(), '\..\ddebiftool_snapshot_23October2022\'];
@@ -27,4 +27,7 @@ After running all the scripts, you can generate the results (figures) by executi
 
    - The folder **ddebiftool_snapshot_23October2022** should be obtained from step (1).
    - The folder **Supporting_function** should be obtained from step (2).
+4) Run the other scripts in the following order: 
+`branching_towrds_asymmetric_sols_original_case.m`, `sym_breaking_original_case`, `tracking_threshold_crossing_asymmetric`, `identifying_Sols_in_different_regions.m`, and `Plot_auditory_model_original_case_submissionversion.m`
+
 
