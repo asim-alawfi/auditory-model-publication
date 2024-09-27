@@ -1,7 +1,7 @@
 %% Original Case: Computation tracking branches with touching theta
 clear;
     base=[pwd(),'\..\ddebiftool_snapshot_23October2022\'];
-     base2=[pwd(),'\Supporting_function\'];
+    base2=[pwd(),'\..\Supporting_function\'];
     addpath([base,'ddebiftool'],...
             [base,'ddebiftool_extra_psol'],...
             [base,'ddebiftool_utilities'],...
@@ -9,6 +9,7 @@ clear;
             [base,'ddebiftool_extra_nmfm'],...
             [base,'ddebiftool_extra_symbolic'],...
             [base,'ddebiftool_coco']);
+addpath([base2,'Supporting_functions'])
  %%
  load('branch_of_sympos_original_case_and_threshold_crossing.mat')
  %%  Parameters bound and symmetry condition
