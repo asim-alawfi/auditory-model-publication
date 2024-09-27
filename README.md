@@ -1,6 +1,6 @@
 
 
-These scripts perform bifurcation computations for the auditory model (based on experimental data). They should be run in sequence, as each script saves its results using a `save(...)` command, and the next script loads those results using a `load(...)` command.
+These scripts perform bifurcation computations for the auditory model (experimental data case). They should be run in sequence, as each script saves its results using a `save(...)` command, and the next script loads those results using a `load(...)` command.
 
 After running all the scripts, you can generate the results (figures) by executing the script `Plot_auditory_model_original_case_submissionversion.m`, which will create the necessary figures.
 
