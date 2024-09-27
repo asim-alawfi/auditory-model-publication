@@ -10,7 +10,7 @@ After running all the scripts, you can generate the results (figures) by executi
    
 2) Download the repository folder called **Matlab-Supporting-Functions-for-Auditory-Model** from: https://github.com/asim-alawfi/Matlab-Supporting-Functions-for-Auditory-Model.git
 
-3) The first script you need to run is `branch_of_sympos_original_case_and_threshold_crossing.m`. Before running it, make sure to check and set the MATLAB path. The path in all these scripts is set as follows:
+3) The first script that must be run first is `branch_of_sympos_original_case_and_threshold_crossing.m`.  **Note** at  the beginning of this script (and the other scripts) is the addpath which is set here and in all other scripts as follows:
 
    ```matlab
    base = [pwd(), '\..\ddebiftool_snapshot_23October2022\'];
