@@ -1,7 +1,7 @@
 %% Original Case: Computation of one-parameter computation in PR with fixing df=0.73, 
  clear;
     base=[pwd(),'\..\ddebiftool_snapshot_23October2022\'];
-    %base2=[pwd(),'\Supporting_function\'];
+    base2=[pwd(),'\..\Supporting_function\'];
     addpath([base,'ddebiftool'],...
             [base,'ddebiftool_extra_psol'],...
             [base,'ddebiftool_utilities'],...
@@ -9,7 +9,7 @@
             [base,'ddebiftool_extra_nmfm'],...
             [base,'ddebiftool_extra_symbolic'],...
             [base,'ddebiftool_coco']);
-    addpath('\Supporting_function\')
+addpath([base2,'Supporting_functions'])
 %%  
 % upload from file 'Solve23_2df'
 load('sol23_2df.mat') 
