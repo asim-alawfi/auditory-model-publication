@@ -27,7 +27,7 @@ After running all the scripts, you can generate the results (figures) by executi
 
    - The folder **ddebiftool_snapshot_23October2022** should be obtained from step (1).
    - The folder **Supporting_function** should be obtained from step (2).
-4) Run the other scripts in the following order: 
+4) After running the script in step (3) run the other scripts in the following order: 
 `branching_towrds_asymmetric_sols_original_case.m`, `sym_breaking_original_case`, `tracking_threshold_crossing_asymmetric`, `identifying_Sols_in_different_regions.m`, and `Plot_auditory_model_original_case_submissionversion.m`
 
 
