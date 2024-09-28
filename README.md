@@ -6,7 +6,7 @@ After running all the scripts, you can generate the results (figures) by executi
 
 **Essential steps to run the scripts:**
 
-1) It is recommended to use the same version of DDE-Biftool that was used for the computations. You can download DDE-Biftool from: https://github.com/asim-alawfi/DDE-Biftool-Package.git
+1) It is recommended to use the same version of **DDE-Biftool** that was used in the bifurcation analysis for the auditory model. The **DDE-Biftool** package  can be obtained from: https://github.com/asim-alawfi/DDE-Biftool-Package.git
    
 2) Download the repository folder called **Matlab-Supporting-Functions-for-Auditory-Model** from: https://github.com/asim-alawfi/Matlab-Supporting-Functions-for-Auditory-Model.git
 
