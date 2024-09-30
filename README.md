@@ -22,7 +22,7 @@ addpath([base2, 'Supporting_functions']);
 ```
 
 ### Note: 
-You **do not** need to run any scripts from the `ddebiftool_snapshot_23October2022` or `Supporting_function` folders. They simply need to be in the MATLAB path.
+You **do not** need to run any scripts from the `ddebiftool_snapshot_23October2022` or `Supporting_function` folders. They simply need to be in the MATLAB path in all the scripts in this repository.
 
 ## Script Execution
 
