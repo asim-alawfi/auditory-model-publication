@@ -1,33 +1,56 @@
 
 
-These scripts perform bifurcation computations for the auditory model (experimental data case). They should be run in sequence, as each script saves its results using a `save(...)` command, and the next script loads those results using a `load(...)` command.
+# Auditory Model Bifurcation Analysis using DDE-Biftool
 
-After running all the scripts, you can generate the results (figures) by executing the script `Plot_auditory_model_original_case_submissionversion.m`, which will create the necessary figures.
+This repository contains MATLAB code for performing bifurcation computations in an auditory model using **DDE-Biftool**.
 
-**Essential steps to run the scripts:**
+## Requirements
 
-1) Use the same version of **DDE-Biftool** that was used in the bifurcation analysis for the auditory model. The **DDE-Biftool** package can be obtained from: https://github.com/asim-alawfi/DDE-Biftool-Package.git
-   
-2) Download the repository folder called **Matlab-Supporting-Functions-for-Auditory-Model** from: https://github.com/asim-alawfi/Matlab-Supporting-Functions-for-Auditory-Model.git
+Ensure that the following folders are added to your MATLAB path:
 
-3) The first script that must be run first is `branch_of_sympos_original_case_and_threshold_crossing.m`. "**Note**: At the beginning of this script, the `addpath` is set here and in all other scripts as follows:
+```matlab
+base = [pwd(), '\..\ddebiftool_snapshot_23October2022\'];
+base2 = [pwd(), '\..\Supporting_function\'];
+addpath([base, 'ddebiftool'], ...
+        [base, 'ddebiftool_extra_psol'], ...
+        [base, 'ddebiftool_utilities'], ...
+        [base, 'ddebiftool_extra_rotsym'], ...
+        [base, 'ddebiftool_extra_nmfm'], ...
+        [base, 'ddebiftool_extra_symbolic'], ...
+        [base, 'ddebiftool_coco']);
+addpath([base2, 'Supporting_functions']);
+```
 
-   ```matlab
-   base = [pwd(), '\..\ddebiftool_snapshot_23October2022\'];
-   base2 = [pwd(), '\..\Supporting_function\'];
-   addpath([base, 'ddebiftool'], ...
-           [base, 'ddebiftool_extra_psol'], ...
-           [base, 'ddebiftool_utilities'], ...
-           [base, 'ddebiftool_extra_rotsym'], ...
-           [base, 'ddebiftool_extra_nmfm'], ...
-           [base, 'ddebiftool_extra_symbolic'], ...
-           [base, 'ddebiftool_coco']);
-   addpath([base2, 'Supporting_functions']);
-   ```
+### Note: 
+You **do not** need to run any scripts from the `ddebiftool_snapshot` or `Supporting_function` folders. They simply need to be in the MATLAB path.
 
-   - The folder **ddebiftool_snapshot_23October2022** should be obtained from step (1).
-   - The folder **Supporting_function** should be obtained from step (2).
-4) After running the script in step (3) run the other scripts in the following order: 
-`branching_towrds_asymmetric_sols_original_case.m`, `sym_breaking_original_case`, `tracking_threshold_crossing_asymmetric`, `identifying_Sols_in_different_regions.m`, and `Plot_auditory_model_original_case_submissionversion.m`
+## Script Execution
 
+The scripts are grouped into **sets**, and each set must be run in sequence. Each script saves its results with the `save(...)` command, which are loaded by subsequent scripts using the `load(...)` command.
+
+### Set 1: Bifurcation Analysis Based on Experimental Data
+Run the following scripts in order:
+1. `branch_of_sympos_original_case_and_threshold_crossing.m`
+2. `branching_towrds_asymmetric_sols_original_case.m`
+3. `sym_breaking_original_case.m`
+4. `tracking_threshold_crossing_asymmetric.m`
+5. `identifying_Sols_in_different_regions.m`
+6. `Plot_auditory_model_original_case_submissionversion.m`
+
+### Set 2: One-Parameter Computation for Varying Delay and Tone Duration
+1. `br_of_POs_different_values_TD_D_in_loop.m`
+2. `asymmetric_branches_case12.m`
+3. `plot_one_parameter_for_all_caes.m`
+
+### Set 3: Computation in (rp, df)-Parameter Space (Large TD)
+1. `touching_theta_case_TD.m`
+2. `symmetry_breaking_for_case_TD.m`
+
+### Set 4: Computation in (rp, df)-Parameter Space (D = TD = 0.05)
+1. `touching_theta_case_TD_and_D.m`
+2. `symmetry_breaking_for_case_TD_and_D.m`
+
+### Set 5: Computation in (rp, df)-Parameter Space (Large D = 0.05)
+1. `touching_theta_case_D.m`
+2. `symmetry_breaking_for_case_D.m`
 
