@@ -22,14 +22,13 @@ addpath([base2, 'Supporting_functions']);
 ```
 
 ### Note: 
-You **do not** need to run any scripts from the `ddebiftool_snapshot` or `Supporting_function` folders. They simply need to be in the MATLAB path.
+You **do not** need to run any scripts from the `ddebiftool_snapshot_23October2022` or `Supporting_function` folders. They simply need to be in the MATLAB path.
 
 ## Script Execution
 
-The scripts are grouped into **sets**, and each set must be run in sequence. Each script saves its results with the `save(...)` command, which are loaded by subsequent scripts using the `load(...)` command.
-
+The scripts can be divided into **sets**, and as each script saves its results with the `save(...)` command, which are loaded by subsequent scripts using the `load(...)` command. they must be run in a sequence.  
+**Run the scripts in following order:**
 ### Set 1: Bifurcation Analysis Based on Experimental Data
-Run the following scripts in order:
 1. `branch_of_sympos_original_case_and_threshold_crossing.m`
 2. `branching_towrds_asymmetric_sols_original_case.m`
 3. `sym_breaking_original_case.m`
