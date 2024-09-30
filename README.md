@@ -26,8 +26,10 @@ You **do not** need to run any scripts from the `ddebiftool_snapshot_23October20
 
 ## Script Execution
 
-The scripts can be divided into **sets**, and as each script saves its results with the `save(...)` command, which are loaded by subsequent scripts using the `load(...)` command. they must be run in a sequence.  
+The scripts can be divided into **sets**, and as each script saves its results with the `save(...)` command, which are loaded by subsequent scripts using the `load(...)` command. they must be run in a sequence. 
+ 
 **Run the scripts in following order:**
+
 ### Set 1: Bifurcation Analysis Based on Experimental Data
 1. `branch_of_sympos_original_case_and_threshold_crossing.m`
 2. `branching_towrds_asymmetric_sols_original_case.m`
@@ -36,20 +38,20 @@ The scripts can be divided into **sets**, and as each script saves its results w
 5. `identifying_Sols_in_different_regions.m`
 6. `Plot_auditory_model_original_case_submissionversion.m`
 
-### Set 2: One-Parameter Computation for Varying Delay and Tone Duration
+### Set 2: One-Parameter computation for different values of the tone duration (TD) and delay (D) parameters 
 1. `br_of_POs_different_values_TD_D_in_loop.m`
 2. `asymmetric_branches_case12.m`
 3. `plot_one_parameter_for_all_caes.m`
 
-### Set 3: Computation in (rp, df)-Parameter Space (Large TD)
+### Set 3: Computation in (rp, df)-parameter space (Large TD)
 1. `touching_theta_case_TD.m`
 2. `symmetry_breaking_for_case_TD.m`
 
-### Set 4: Computation in (rp, df)-Parameter Space (D = TD = 0.05)
+### Set 4: Computation in (rp, df)-parameter space (D = TD = 0.05)
 1. `touching_theta_case_TD_and_D.m`
 2. `symmetry_breaking_for_case_TD_and_D.m`
 
-### Set 5: Computation in (rp, df)-Parameter Space (Large D = 0.05)
+### Set 5: Computation in (rp, df)-parameter space (Large D = 0.05)
 1. `touching_theta_case_D.m`
 2. `symmetry_breaking_for_case_D.m`
 
