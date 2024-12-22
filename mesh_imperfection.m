@@ -114,88 +114,119 @@ plt_text={'symmetric POs: stable','non-symmetric POs: stable','symmetric POs: un
 plt_vec=[plt1(1);plt2(1);plt3(1);plt4(1)];
 legend(plt_vec,plt_text,'Interpreter','latex','EdgeColor',0.5*[1,1,1],'FontSize',24)
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier', 'LineWidth',2)
-title('(a)')
+title('(a)','FontSize',16,'FontName','Courier')
 %%%%%%%%%%%%%
+[~,ind_maxua]=max(pt1.profile(1,:));
+[~,ind_maxub]=max(pt1.profile(2,:));
 nexttile([2,2])
 hold on
 grid on
-plot(pt1.mesh,pt1.profile(1:2,:),'LineWidth',3)
+plot(pt1.mesh*pt1.period,pt1.profile(1:2,:),'LineWidth',3)
 yline(0.5,'k--','Threshold','LineWidth',3)
-legend('$u_\mathrm{A}$','$u_\mathrm{A}$','Interpreter','latex','FontSize',16,'Location','Best')
-xlabel('time(s)','FontSize',12,'FontName','Cambria')
-title('(b): solution of the red rectangle')
+xlim([0,pt1.period])
+ylim([0,1])
+xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+xlabel('period','FontSize',12,'FontName','Cambria')
+title('(b)','FontSize',16,'FontName','Courier')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier')
 %%%%%%%%%%%%%%%
+[~,ind_maxua2]=max(pt2.profile(1,:));
+[~,ind_maxub2]=max(pt2.profile(2,:));
 nexttile([2,2])
 hold on
 grid on
-plot(pt2.mesh,pt2.profile(1:2,:),'LineWidth',3)
+plot(pt2.mesh*pt2.period,pt2.profile(1:2,:),'LineWidth',3)
 yline(0.5,'k--','Threshold','LineWidth',3)
-legend('$u_\mathrm{A}$','$u_\mathrm{A}$','Interpreter','latex','FontSize',16,'Location','Best')
-xlabel('time(s)','FontSize',12,'FontName','Cambria')
-title('(b): solution of the red rectangle')
+xlim([0,pt2.period])
+ylim([0,1])
+xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+legend('$u_\mathrm{A}$','$u_\mathrm{A}$','Interpreter','latex','FontSize',16,'Location','Best',...
+    'Location','northeastoutside')
+xlabel('period','FontSize',12,'FontName','Cambria')
+title('(c)','FontSize',16,'FontName','Courier')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier')
 % %%%%%%%%%%%
 nexttile([2,2])
 ntfine=100001;
 tcoarse=pt1.mesh(1:pt1.degree:end);
+tcoarse=tcoarse*pt1.period;
 nt=length(tcoarse);
-m_int=interp1(tcoarse,linspace(0,1,nt),'linear','pp');
-tfine=linspace(pt1.mesh(1),pt1.mesh(end),ntfine);
-t1=tfine(tfine<0.5);
-t2=tfine(tfine>=0.5);
+m_int=interp1(tcoarse,linspace(0,pt1.period,nt),'linear','pp');
+tfine=linspace(pt1.mesh(1)*pt1.period,pt1.mesh(end)*pt1.period,ntfine);
+t1=tfine(tfine<pt1.period/2);
+t2=tfine(tfine>=pt1.period/2);
 m=fnder(m_int);
 hold on; grid on 
 plot(t1,fnval(m,t1),'-','Color',clrs(5,:),'LineWidth',3)
 plot(t1,fnval(m,t2(1:end-1)),'-','Color',clrs(7,:),'LineWidth',2)
 yline(1,'k--','LineWidth',2)
-xlabel('period','FontSize',12,'FontName','Cambria')
-text(0.4,1.35,'$y=1$','Interpreter','latex','FontSize',16,'FontWeight','bold')
-title('(c)')
+xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+xlabel('half-period','FontSize',12,'FontName','Cambria')
+text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',16,'FontWeight','bold')
+title('(d)')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier','box','off')
-legend('$m(t)$','$m(t+0.5)$','Interpreter','latex')
-xlim([0,0.5])
+%legend('$m(t)$','$m(t+0.5)$','Interpreter','latex')
+xlim([0,pt1.period/2])
+ylim([0,8])
 % %%%%%%%
 nexttile([2,2])
 tcoarsept2=pt2.mesh(1:pt2.degree:end);
+tcoarsept2=tcoarsept2*pt2.period;
 ntpt2=length(tcoarsept2);
-m_intpt2=interp1(tcoarsept2,linspace(0,1,ntpt2),'linear','pp');
-tfinept2=linspace(pt2.mesh(1),pt2.mesh(end),ntfine);
-t1pt2=tfinept2(tfinept2<0.5);
-t2pt2=tfinept2(tfinept2>=0.5);
+m_intpt2=interp1(tcoarsept2,linspace(0,pt2.period,ntpt2),'linear','pp');
+tfinept2=linspace(pt2.mesh(1)*pt2.period,pt2.mesh(end)*pt2.period,ntfine);
+t1pt2=tfinept2(tfinept2<pt2.period/2);
+t2pt2=tfinept2(tfinept2>=pt2.period/2);
 mpt2=fnder(m_intpt2);
 hold on; grid on 
 plot(t1pt2,fnval(mpt2,t1pt2),'-','Color',clrs(5,:),'LineWidth',3)
 plot(t1pt2,fnval(mpt2,t2pt2(1:end-1)),'-','Color',clrs(7,:),'LineWidth',2)
 yline(1,'k--','LineWidth',2)
-xlabel('period','FontSize',12,'FontName','Cambria')
-text(0.4,1.35,'$y=1$','Interpreter','latex','FontSize',16,'FontWeight','bold')
-title('(c)')
+xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+xlabel('half-period','FontSize',12,'FontName','Cambria')
+text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',16,'FontWeight','bold')
+title('(e)')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier','box','off')
-legend('$m(t)$','$m(t+0.5)$','Interpreter','latex')
-xlim([0,0.5])
+legend('$m(t)$','$m(t+0.5)$','Interpreter','latex',...
+    'Location','northeastoutside')
+xlim([0,pt2.period/2])
+ylim([0,8])
 %
 nexttile([2,2])
 hold on; grid on
 yline(0,'k--','LineWidth',3)
 plot(t1,fnval(m,t1)-fnval(m,t2(1:end-1)),'LineWidth',2)
-xlim([0,0.5])
-xlabel('period','FontSize',16,'FontName','Cambria')
-legend('','$m(t)-m(t+0.5)$','Interpreter','latex')
-title('(d)')
+xlim([0,pt1.period/2])
+ylim([-3,4]);
+xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+xlabel('half-period','FontSize',16,'FontName','Cambria')
+%legend('','$m(t)-m(t+0.5)$','Interpreter','latex')
+title('(f)')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier')
-%%
+%
 nexttile([2,2])
 hold on; grid on
 yline(0,'k--','LineWidth',3)
 plot(t1pt2,fnval(mpt2,t1pt2)-fnval(mpt2,t2pt2(1:end-1)),'LineWidth',2)
-xlim([0,0.5])
-xlabel('period','FontSize',16,'FontName','Cambria')
-legend('','$m(t)-m(t+0.5)$','Interpreter','latex')
-title('(d)')
+xlim([0,pt2.period/2])
+ylim([-3,4]);
+xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
+ax = gca;
+ax.XAxis.TickLabelFormat='%0.2f';
+xlabel('half-period','FontSize',16,'FontName','Cambria')
+legend('','$m(t)-m(t+0.5)$','Interpreter','latex',Location='northeastoutside')
+title('(g)')
 set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier')
-%%%%%%%%
-
-%%
+%% %%%%%%
 
 save('imperfection_in_mesh.mat')
