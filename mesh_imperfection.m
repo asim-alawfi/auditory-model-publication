@@ -113,8 +113,11 @@ plt6=plot(PRsy_ax(1),ysy_ax(1),'^','Color','k','MarkerFaceColor','red','MarkerSi
 plt_text={'symmetric POs: stable','non-symmetric POs: stable','symmetric POs: unstable','symmetry-breaking'};
 plt_vec=[plt1(1);plt2(1);plt3(1);plt4(1)];
 legend(plt_vec,plt_text,'Interpreter','latex','EdgeColor',0.5*[1,1,1],'FontSize',24)
-set(gca,'FontSize',16,'FontWeight','bold','FontName','Courier', 'LineWidth',2)
-title('(a)','FontSize',16,'FontName','Courier')
+xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold')
+ylabel('max$(u_\mathrm{A})$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold');
+
+set(gca,'FontSize',20,'FontWeight','bold','FontName','Courier', 'LineWidth',2)
+title('(a)','FontSize',20,'FontName','Courier')
 %%%%%%%%%%%%%
 [~,ind_maxua]=max(pt1.profile(1,:));
 [~,ind_maxub]=max(pt1.profile(2,:));
