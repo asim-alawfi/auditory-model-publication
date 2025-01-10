@@ -20,7 +20,7 @@ plot(rp2_x(nunst2_sym==0),min2_y2(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),min2_
 chang2_stb_sym=find(diff(nunst2_sym));
 % branching off to the asymmetric solutions continuation in PR 
 sbxsym=@(p,pref)dde_psol_lincond(p,xdim,'x','trafo',Rsym,'shift',[1,2],...
-    'condprojint',linspace(0.1,0.5,3)','condprojmat',[1,0,0,0,0,0]);
+    'condprojint',linspace(0.1,0.5,3)');
 poev1args={'usercond',{sbxsym},'initcond',{sbxsym}};
 nspoev1args=addprefix('SetupPOEV1',poev1args);
 [pffuncs,nonsymper,suc_v]=SetupPsol(funcs_audi,po2_symmetry_wbifs,chang2_stb_sym(2),'print_residual_info',1,...
