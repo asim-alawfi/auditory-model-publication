@@ -11,11 +11,11 @@ clear;
             [base,'ddebiftool_coco'],...
             [base,'Supporting_functions']);
 %%
-load('branch_of_sympos_original_case_and_threshold_crossing.mat')
-load('branching_towrds_asymmetric_sols_original_case.mat')
+%load('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
+load('branching_towrds_asymmetric_sols_original_case_coj.mat')
 load('sym_breaking_original_case_try2.mat')
 load('identifying_solutions_in_regions_try2.mat')
-load('tracking_threshold_crossing_asymmetric_try2.mat')
+%load('tracking_threshold_crossing_asymmetric_try2.mat')
 %%
 graycolor=[0.7 0.7 0.7];
 mbrown= [0.65, 0.33, 0.13];
@@ -27,18 +27,18 @@ min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry.point);
 rp_unsym=arrayfun(@(x)x.parameter(in.PR),nonsymper_wbifs.point);
 y_unsym=arrayfun(@(x)max(x.profile(1,:)),nonsymper_wbifs.point);
 y2_unsym=arrayfun(@(x)min(x.profile(1,:)),nonsymper_wbifs.point);
-[~,it_intg]=min(abs(rp2_x-3));
-[~,it_seg]=min(abs(rp2_x-8.15));
+[~,it_intg]=min(abs(rp2_x-2));
+[~,it_seg]=min(abs(rp2_x-10));
 it_bis=find(diff(sign(rp_unsym-4.0)));
-%%
+%
 p_intg=po2_symmetry.point(it_intg);
 p_seg=po2_symmetry.point(it_seg);
 p_bis=nonsymper_wbifs.point(it_bis(1));
 p_bis2=nonsymper_wbifs.point(it_bis(2));
-%% We plot int_{0}^{1/2} u_A(t)-u_B(t+1/2) dt by setting:
+% We plot int_{0}^{1/2} u_A(t)-u_B(t+1/2) dt by setting:
 Sint_A1=dde_lincond_struct(size(po2_symmetry.point(1).profile,1),'profile','trafo',0,...
     'shift',[1,2],'condprojmat',-1,'stateproj',[1,0,0,0,0,0],'condprojint',[0,0.5]);
-Sint_B2=dde_lincond_struct(size(po2_symmetry.point(1).profile,1),'profile','trafo',0,...
+Sint_B2=dde_lincond_struct(size(po2_symmetry_wbifs.point(1).profile,1),'profile','trafo',0,...
     'shift',[1,2],'condprojmat',-1,'stateproj',[0,1,0,0,0,0],'condprojint',[0.5,1]);
 yax_Sint_A1=arrayfun(@(x)dde_psol_lincond(x,Sint_A1),po2_symmetry.point);
 yax_Sint_B2=arrayfun(@(x)dde_psol_lincond(x,Sint_B2),po2_symmetry.point);
@@ -46,28 +46,25 @@ non_sym_Sint_A1=arrayfun(@(x)dde_psol_lincond(x,Sint_A1),nonsymper_wbifs.point);
 non_sym_Sint_B2=arrayfun(@(x)dde_psol_lincond(x,Sint_B2),nonsymper_wbifs.point);
 yax_sym=yax_Sint_A1-yax_Sint_B2;
 yax_nonsym=non_sym_Sint_A1-non_sym_Sint_B2;
-%%
-%%
-bif_loc=find(diff(nunst2_sym));
+%
 grayColor=[0.4 0.4 0.4];
 pColor=[0 0.5 0];%[0.3010 0.7450 0.9330]%[0.9290 0.6940 0.1250]%[0.4940 0.1840 0.5560];
 clr=colorcube();%lines()
 p2c=[0.4940 0.1840 0.5560];
-
 %%
-%%
+bif_loc=find(diff(nunst_pobr1));
 clrs2=lines();
 figure(1)
 clf;
 tiledlayout(4,4)
 nexttile([4 2])
 hold on; grid on
-plot(rp2_x(nunst2_sym==0),yax_sym(nunst2_sym==0),'.','Color',clrs2(4,:),'LineWidth',3,'MarkerSize',10)
-plot(rp2_x(nunst2_sym>=1),yax_sym(nunst2_sym>=1),'k--','LineWidth',3)%,'Color',grayColor)%,'LineWidth',1)
+plot(rp2_x(nunst_pobr1==0),yax_sym(nunst_pobr1==0),'.','Color',clrs2(4,:),'LineWidth',3,'MarkerSize',10)
+plot(rp2_x(nunst_pobr1>=1),yax_sym(nunst_pobr1>=1),'k--','LineWidth',3)%,'Color',grayColor)%,'LineWidth',1)
 plot(rp_unsym(uns_um==0),yax_nonsym(uns_um==0),'.-','Color',clrs2(5,:),'LineWidth',3,'MarkerSize',10)%,'g.')%,'MarkerS',5)
 plot(rp2_x(bif_loc),yax_sym(bif_loc),'k.','MarkerSize',35)
-plot(rp2_x(it_intg+8),yax_sym(it_intg+8),'.','Color','red','MarkerSize',35)
-plot(rp2_x(it_seg-8),yax_sym(it_seg-8),'.','Color',mbrown,'MarkerS',35)
+plot(rp2_x(it_intg),yax_sym(it_intg),'.','Color','red','MarkerSize',35)
+plot(rp2_x(it_seg),yax_sym(it_seg),'.','Color',mbrown,'MarkerS',35)
 plot(rp_unsym(it_bis),yax_nonsym(it_bis),'x','Color','red','LineWidth',3,'MarkerS',10)
 %yline(0.5,'k--','Threshold')
 legend('stable symmetric POs','unstable symmetric POs','stable non-symmetric POs','symmetry-breaking Bif',...
@@ -78,7 +75,7 @@ xlim([0,rp2_x(1)])
 title('(a)','FontSize',12,'FontName','Cambria')
 %ylabel('Second peak of $u_\mathrm{A}$ per period','FontName','Courier','Interpreter','latex','FontSize',12)
 set(gca,set_one_bif{:})
-xlim([1,30])
+xlim([min(rp2_x),40])
 
 % %%%%%%%%%%%%%%%%%%%%%
 nexttile([2 1])
@@ -205,20 +202,27 @@ for i=1:length(Symbk_org_br_with_stab.point)
     pi=Symbk_org_br_with_stab.point(i);
     second_peak(i)=ua_eval_asymbk(pi);
 end
+%%
+%figure(3)
+%clf; hold on
+%plot(rp_symbk1,second_peak,'b.','MarkerSize',15)
+clrs=colormap(jet);
+tmp=@(x)round(x*255+1);
+mscal=tmp((second_peak-min(second_peak))/(max(second_peak)-min(second_peak)));
 figure(3)
 clf; hold on
-plot(rp_symbk1,second_peak,'b.','MarkerSize',15)
-% clrs=colormap(jet);
-% tmp=@(x)round(x*255+1);
-% mscal=tmp((second_peak-min(second_peak))/(max(second_peak)-min(second_peak)));
-% figure(3)
-% clf; hold on
+for i=1:length(second_peak)
+plot(rp_symbk1(i),df_symbk1(i),'.','Color',clrs(mscal(i),:),'MarkerSize',10)
+end
 % for i=1:length(second_peak)
 % plot(rp_symbk1(i),second_peak(i),'.','Color',clrs(mscal(i),:),'MarkerSize',15)
 % end
-xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Cambria',FontSize=16,FontWeight='bold')
-ylabel('$d_\mathrm{f}$','interpreter','latex','FontName','Cambria',FontSize=16,FontWeight='bold')
-set(gca, 'FontWeight','bold')
+xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold')
+ylabel('$d_\mathrm{f}$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold')
+set(gca, 'FontWeight','bold','LineWidth',2,'Box','on')
+clim([min(second_peak),max(second_peak)])
+cb=colorbar;
+cb.Limits=[min(second_peak),max(second_peak)];
 grid on
 %%
 p_sym=mbr_wbifs.point(it);
