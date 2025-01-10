@@ -10,21 +10,20 @@ clear;
             [base,'ddebiftool_coco'],...
             [base,'Supporting_functions']);
  %%
- load('branch_of_sympos_original_case_and_threshold_crossing.mat')
-%%
-rp2_x=arrayfun(@(x)x.parameter(in.PR),po2_symmetry.point);
-max2_y=arrayfun(@(x)max(x.profile(1,:)),po2_symmetry.point);
-min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry.point);
+ load('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
+ %%
 figure(2);clf;hold on;grid on
 plot(rp2_x(nunst2_sym==0),max2_y(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),max2_y(nunst2_sym>=1),'kx')%,'LineWidth',1)
 plot(rp2_x(nunst2_sym==0),min2_y2(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),min2_y2(nunst2_sym>=1),'kx')%,'LineWidth',1)
 %
-%% branching off to the asymmetric solutions continuation in PR 
+%%
+chang2_stb_sym=find(diff(nunst2_sym));
+% branching off to the asymmetric solutions continuation in PR 
 sbxsym=@(p,pref)dde_psol_lincond(p,xdim,'x','trafo',Rsym,'shift',[1,2],...
-    'condprojint',linspace(0.1,0.5,6)');
+    'condprojint',linspace(0.1,0.5,3)','condprojmat',[1,0,0,0,0,0]);
 poev1args={'usercond',{sbxsym},'initcond',{sbxsym}};
 nspoev1args=addprefix('SetupPOEV1',poev1args);
-[pffuncs,nonsymper,suc_v]=SetupPsol(funcs_audi,po2_symmetry,chang2_stb_sym(1),'print_residual_info',1,...
+[pffuncs,nonsymper,suc_v]=SetupPsol(funcs_audi,po2_symmetry_wbifs,chang2_stb_sym(2),'print_residual_info',1,...
    'outputfuncs',true,'branch_off','POEV1','contpar',in.PR,...
     nspoev1args{:},'max_step',[in.PR,0.05; in.df,0.01; 0,0.05]);
 %%
@@ -33,10 +32,10 @@ nonsymper.parameter.max_step(end)=0.05;
 figure(98)
 clf;
 hold on
-nonsymper=br_contn(pffuncs,nonsymper,190);
+nonsymper=br_contn(pffuncs,nonsymper,180);
 %%
-[nonsymper_wbifs,unsym_tests,uns_bifs,uns_bifind]=MonitorChange(pffuncs,nonsymper,'print_residual_info',0);
-[uns_um,uns_dom,uns_triv]=GetStability(nonsymper_wbifs,'exclude_trivial',true);
+[nonsymper_wbifs,uns_um,uns_bifs,uns_bifind]=MonitorChange(pffuncs,nonsymper,'print_residual_info',0);
+%[uns_um,uns_dom,uns_triv]=GetStability(nonsymper_wbifs,'exclude_trivial',true);
 rp_unsym=arrayfun(@(x)x.parameter(in.PR),nonsymper_wbifs.point);
 y_unsym=arrayfun(@(x)max(x.profile(1,:)),nonsymper_wbifs.point);
 y2_unsym=arrayfun(@(x)min(x.profile(1,:)),nonsymper_wbifs.point);
@@ -64,5 +63,5 @@ ylabel('max u_A')
 yticks([])
 set(gca,'FontWeight','bold')
 %% 
-save('branching_towrds_asymmetric_sols_original_case.mat')
+save('branching_towrds_asymmetric_sols_original_case_coj.mat')
 %save('branching_off_to_unsymmetris_sols_original_case.mat')
