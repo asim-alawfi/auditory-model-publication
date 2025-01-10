@@ -15,7 +15,7 @@ load('sol23_2df.mat')
 %% SetupFuncs and parameter bounds.
 funcs_audi=set_symfuncs(@symbolic_auditory_with_symmetry_version,'sys_tau',@()[in.D, in.TD],...
    'sys_cond',@sys_cond);
-parbd={'min_bound',[in.PR,1;in.df,0],'max_bound',[in.PR,31; in.df,1],...
+parbd={'min_bound',[in.PR,0.5;in.df,0],'max_bound',[in.PR,40; in.df,1],...
     'max_step',[in.PR,0.1; in.df,0.01; 0,0.1],'print_residual_info',1};
 %% Set up symmetry condition for dde-biftool implementation
 % the system is symmetric with respect to the linear transformation:
@@ -23,7 +23,7 @@ Rsym=[0,1,0,0,0,0;1,0,0,0,0,0;0,0,0,1,0,0;0,0,1,0,0,0;0,0,0,0,-1,0;0,0,0,0,0,-1]
 xdim=length(x0);
 % symmetric conditios
 psolsym=@(p,pref)dde_psol_lincond(p,xdim,'profile','trafo',Rsym,'shift',[1,2],...
-    'condprojint',linspace(0.1,0.5,2)'*[1,1]);
+    'condprojint',linspace(0.1,0.5,2)'*[1,1],'condprojmat',[1,0,0,0,0,0]);
 addprefix=@(p,args)reshape(cat(1,cellfun(@(s)[p,'.',s],args(1:2:end-1),...
     'UniformOutput',false),args(2:2:end)),1,[]);
 %% picking up a periodic solution from dde23 and continuing computation in PR (here df=0.73).
@@ -38,16 +38,16 @@ po2_symmetry=br_contn(funcs_s2,po2_symmetry,450);
 po2_symmetry=br_rvers(po2_symmetry);
 po2_symmetry=br_contn(funcs_s2,po2_symmetry,400);
 %% Computing stability and special points
-[po2_symmetry_wbifs,po2_symmetry_nunst,po2_symmetry_bifs,po2_symmetry_bifind]=MonitorChange(funcs_s2,po2_symmetry,...
+[po2_symmetry_wbifs,nunst2_sym,po2_symmetry_bifs,po2_symmetry_bifind]=MonitorChange(funcs_s2,po2_symmetry,...
     'range',2:length(po2_symmetry.point),'printlevel',1,'print_residual_info',0,...
     'min_iterations',5);
-[nunst2_sym,dom,triv2_defect_sym,po2_symmetry.point]=GetStability(po2_symmetry,'funcs',funcs_s2,...
-    'exclude_trivial',true);%,'recompute',true);
+%% [nunst2_sym,dom,triv2_defect_sym,po2_symmetry.point]=GetStability(po2_symmetry,'funcs',funcs_s2,...
+%     'exclude_trivial',true);%,'recompute',true);
 chang2_stb_sym=find(diff(nunst2_sym));
-rp2_x=arrayfun(@(x)x.parameter(in.PR),po2_symmetry.point);
-max2_y=arrayfun(@(x)max(x.profile(1,:)),po2_symmetry.point);
-min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry.point);
-%% plotting stability
+rp2_x=arrayfun(@(x)x.parameter(in.PR),po2_symmetry_wbifs.point);
+max2_y=arrayfun(@(x)max(x.profile(1,:)),po2_symmetry_wbifs.point);
+min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry_wbifs.point);
+% plotting stability
 figure(2);clf;hold on;grid on
 plot(rp2_x(nunst2_sym==0),max2_y(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),max2_y(nunst2_sym>=1),'kx')%,'LineWidth',1)
 plot(rp2_x(nunst2_sym==0),min2_y2(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),min2_y2(nunst2_sym>=1),'kx')%,'LineWidth',1)
@@ -60,7 +60,7 @@ sympo_uA_extrema=arrayfun(@(p)dde_coll_roots(p,c_A,'diff',1)',po2_symmetry.point
 ua_eval=@(p,t)c_A*dde_coll_eva(p.profile,p.mesh,t(:)',p.degree); % evaluate u_A at t in point p
 sympomax_ua=cellfun(@(p,t)max2(ua_eval(p,t)),num2cell(po2_symmetry.point),sympo_uA_extrema);
 [~,theta_cross]=min(abs(sympomax_ua-(smaxval+1e-4)));
-%%
+%
 second_max=3;
 ine=in;
 ine.t0=length(fieldnames(in))+1;
@@ -82,7 +82,7 @@ mbranch=br_contn(mfuncs,mbranch,3000);
 [dum,m_dom,m_triv]=GetStability(mbr_wbifs,'exclude_trivial',true);
 rp_thta=arrayfun(@(x)x.parameter(in.PR),mbr_wbifs.point);
 df_thta=arrayfun(@(x)x.parameter(in.df),mbr_wbifs.point);
-%% plot stability for threshold crossing branch 
+% plot stability for threshold crossing branch 
 figure(3)
 clf;hold on 
 plot(rp_thta(dum==0),df_thta(dum==0),'g.',...
@@ -90,7 +90,7 @@ plot(rp_thta(dum==0),df_thta(dum==0),'g.',...
 grid on
 xlabel('r_p')
 ylabel('d_f')
-%%
+%
 %
 %length(mbr_wbifs.point)
 [~,it]=min(abs(rp_thta-34));
@@ -110,19 +110,19 @@ legend('u_A','u_B')
 grid on
 %drawnow
 end
-%%
+
 figure(90)
 hold on
 plot(rp_thta(it),df_thta(it),'kx','LineWidth',3)
-%%
+%
 po2_symmetry=br_remove_extracolumns(po2_symmetry);
 po2_symmetry_wbifs=br_remove_extracolumns(po2_symmetry_wbifs);
 mbranch=br_remove_extracolumns(mbranch);
 mbr_wbifs=br_remove_extracolumns(mbr_wbifs);
 %
 %save('branch_off_pos_original_case_and_threshold_crossing.mat')
-%%
-save('branch_of_sympos_original_case_and_threshold_crossing.mat')
+%
+save('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
 
 
 
