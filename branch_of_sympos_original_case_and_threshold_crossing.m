@@ -34,23 +34,24 @@ addprefix=@(p,args)reshape(cat(1,cellfun(@(s)[p,'.',s],args(1:2:end-1),...
     'usercond',{psolsym},'outputfuncs',true);
 figure(2)
 clf;
-po2_symmetry=br_contn(funcs_s2,po2_symmetry,450);
+po2_symmetry=br_contn(funcs_s2,po2_symmetry,1000);
 po2_symmetry=br_rvers(po2_symmetry);
-po2_symmetry=br_contn(funcs_s2,po2_symmetry,400);
+po2_symmetry=br_contn(funcs_s2,po2_symmetry,1000);
+po2_symmetry=br_rvers(po2_symmetry);
 %% Computing stability and special points
-[po2_symmetry_wbifs,nunst2_sym,po2_symmetry_bifs,po2_symmetry_bifind]=MonitorChange(funcs_s2,po2_symmetry,...
+[po2_symmetry_wbifs,nunst3_sym,po2_symmetry_bifs,po2_symmetry_bifind]=MonitorChange(funcs_s2,po2_symmetry,...
     'range',2:length(po2_symmetry.point),'printlevel',1,'print_residual_info',0,...
     'min_iterations',5);
 %% [nunst2_sym,dom,triv2_defect_sym,po2_symmetry.point]=GetStability(po2_symmetry,'funcs',funcs_s2,...
 %     'exclude_trivial',true);%,'recompute',true);
-chang2_stb_sym=find(diff(nunst2_sym));
+chang2_stb_sym=find(diff(nunst3_sym));
 rp2_x=arrayfun(@(x)x.parameter(in.PR),po2_symmetry_wbifs.point);
 max2_y=arrayfun(@(x)max(x.profile(1,:)),po2_symmetry_wbifs.point);
 min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry_wbifs.point);
 % plotting stability
 figure(2);clf;hold on;grid on
-plot(rp2_x(nunst2_sym==0),max2_y(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),max2_y(nunst2_sym>=1),'kx')%,'LineWidth',1)
-plot(rp2_x(nunst2_sym==0),min2_y2(nunst2_sym==0),'bo',rp2_x(nunst2_sym>=1),min2_y2(nunst2_sym>=1),'kx')%,'LineWidth',1)
+plot(rp2_x(nunst3_sym==0),max2_y(nunst3_sym==0),'bo',rp2_x(nunst3_sym>=1),max2_y(nunst3_sym>=1),'kx')%,'LineWidth',1)
+plot(rp2_x(nunst3_sym==0),min2_y2(nunst3_sym==0),'bo',rp2_x(nunst3_sym>=1),min2_y2(nunst3_sym>=1),'kx')%,'LineWidth',1)
 %% trace symmetric periodic orbit with maximum equal to the threshold (theta=0.5) in two parameters
 % find extrema of $x$  along orbits on po_symmetry branch and pick orbits that
 % have two extrema
@@ -78,8 +79,8 @@ clf;
 mbranch=br_contn(mfuncs,mbranch,3000);
 mbranch=br_rvers(mbranch);
 mbranch=br_contn(mfuncs,mbranch,3000);
-[mbr_wbifs,m_tests,m_bifs,m_bifind]=MonitorChange(mfuncs,mbranch,'print_residual_info',0);
-[dum,m_dom,m_triv]=GetStability(mbr_wbifs,'exclude_trivial',true);
+[mbr_wbifs,dum,m_bifs,m_bifind]=MonitorChange(mfuncs,mbranch,'print_residual_info',0);
+%[dum,m_dom,m_triv]=GetStability(mbr_wbifs,'exclude_trivial',true);
 rp_thta=arrayfun(@(x)x.parameter(in.PR),mbr_wbifs.point);
 df_thta=arrayfun(@(x)x.parameter(in.df),mbr_wbifs.point);
 % plot stability for threshold crossing branch 
@@ -119,6 +120,9 @@ po2_symmetry=br_remove_extracolumns(po2_symmetry);
 po2_symmetry_wbifs=br_remove_extracolumns(po2_symmetry_wbifs);
 mbranch=br_remove_extracolumns(mbranch);
 mbr_wbifs=br_remove_extracolumns(mbr_wbifs);
+%%
+[po2_symmetry,nunst_pobr1,dom_pos,triv_defect_pos]=br_stabl(funcs_s2,po2_symmetry,0,1,'exclude_trivial',true);
+%%
 %
 %save('branch_off_pos_original_case_and_threshold_crossing.mat')
 %
