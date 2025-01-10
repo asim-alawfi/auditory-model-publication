@@ -9,7 +9,7 @@ clear;
             [base,'ddebiftool_coco'],...
             [base,'Supporting_functions']);
 %%
- load('branch_of_sympos_original_case_and_threshold_crossing.mat')
+ load('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
 %% One-parameter continuation with fixing PR=25, and varying df. 
 % We n
 parbds={'min_bound',[in.PR,1;in.df,0.005],'max_bound',[in.PR,34.7; in.df,1],...
