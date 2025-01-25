@@ -112,9 +112,6 @@ grid on
 %drawnow
 end
 
-figure(90)
-hold on
-plot(rp_thta(it),df_thta(it),'kx','LineWidth',3)
 %
 po2_symmetry=br_remove_extracolumns(po2_symmetry);
 po2_symmetry_wbifs=br_remove_extracolumns(po2_symmetry_wbifs);
