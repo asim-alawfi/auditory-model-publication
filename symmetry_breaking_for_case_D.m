@@ -100,7 +100,7 @@ load('touching_theta_case_increased_D_try2.mat')
 nunst_pc3=nunst_pc{3};
 rp_bt2=arrayfun(@(x)x.parameter(in.PR),br_crossing_wbifs(3).point);
 df_bt2=arrayfun(@(x)x.parameter(in.df),br_crossing_wbifs(3).point);
-%%
+%
 figure(34)
 clf
 hold on 

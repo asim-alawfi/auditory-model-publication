@@ -1,4 +1,4 @@
-clear;
+clear
    base=[pwd(),filesep(),'ddebiftool_snapshot_23October2022',filesep()];
     addpath([base,'ddebiftool'],...
             [base,'ddebiftool_extra_psol'],...
@@ -141,9 +141,9 @@ save('period_doubling_bifPart3.mat')
 
 rp_btr=arrayfun(@(x)x.parameter(in.PR),tr_branch.point);
 df_btr=arrayfun(@(x)x.parameter(in.df),tr_branch.point);
-%%
+%
 
-%%
+%
 [~,it]=min(abs(rp_btr-34));
 %find(diff(sign(rp_tr-34)))
 px3=tr_branch.point(it);
@@ -164,53 +164,60 @@ pr3_m1=pr3_m(nunst3_mm>=1);
 df3_m1=df3_m(nunst3_mm>=1);
 tr_loc=find(diff(nunst_pc3));
 clrs=lines();
-figure(9)
+figure(99)
 clf;
 tiledlayout(8,6)
 nexttile([8 3])
 hold on 
-d1=plot(rp_b(nunst_sb==0),df_b(nunst_sb==0),'k',rp_b2,df_b2,'k','LineWidth',2);
-d2=plot(pr3_m0(1:4:end),df3_m0(1:4:end),'k.','LineWidth',2);
-d3=plot(pr3_m1(1:2:end),df3_m1(1:2:end),'.','Color',[0.7,0.7,0.7],'LineWidth',2);
-d4=plot(rp_bt2(nunst_pc3==0),df_bt2(nunst_pc3==0),'--','Color',clrs(7,:),'LineWidth',2);
+d1=plot(rp_b(nunst_sb==0),df_b(nunst_sb==0),'-',rp_b2,df_b2,'-','Color',clrs(1,:),'LineWidth',3);
+d4=plot(rp_bt2(nunst_pc3==0),df_bt2(nunst_pc3==0),'--','Color',clrs(7,:),'LineWidth',4);
 d5=plot(rp_bt2(nunst_pc3>=1),df_bt2(nunst_pc3>=1),'.','Color',[0.5 0.5 0.5],'LineWidth',2);
 d6=plot(pr_dbbif(nunst_dbbif==0),df_dbbif(nunst_dbbif==0),'-',...
-    pr_dbbif2(nunst_dbbif2==0),df_dbbif2(nunst_dbbif2==0),'-','Color',clrs(8,:),'LineWidth',2);
-d7=plot(rp_btr(nunst_tr==0),df_btr(nunst_tr==0),'-','Color',clrs(5,:),'LineWidth',3);
-d8=plot(rp_bt2(tr_loc(2)),df_bt2(tr_loc(2)),'o','MarkerSize',9,'Color',clrs(7,:),'LineWidth',2,'MarkerFaceColor', 'k') ;
-xlabel('$r_\mathrm{p}$','FontSize',18,'interpreter','latex')
-ylabel('$d_\mathrm{f}$','FontSize',18,'interpreter','latex')
-title(' (a): $(t_\mathrm{d }, D) = (0.022,0.05)$','interpreter','latex','FontSize',16)
+    pr_dbbif2(nunst_dbbif2==0),df_dbbif2(nunst_dbbif2==0),'-','Color',clrs(3,:),'LineWidth',4);
+d7=plot(rp_btr(nunst_tr==0),df_btr(nunst_tr==0),'-','Color',clrs(5,:),'LineWidth',4);
+d8=plot(rp_bt2(tr_loc(2)),df_bt2(tr_loc(2)),'o','MarkerSize',20,'Color',clrs(7,:),'LineWidth',2,'MarkerFaceColor', 'k') ;
+d2=plot(pr3_m0(1:2:end),df3_m0(1:2:end),'k.','LineWidth',4,'MarkerSize',15);
+d3=plot(pr3_m1(1:1:end),df3_m1(1:1:end),'.','Color',[0.7,0.7,0.7],'LineWidth',4,'MarkerSize',15);
+%xlabel('$r_\mathrm{p}$','FontSize',18,'interpreter','latex')
+title(' (a)','FontName','Courier',...
+    'FontSize',26,'FontWeight','bold'),%'interpreter','latex',
 legend([d1(1),d2,d3,d4,d5,d6(1),d7(1),d8(1)],...
-    {'symmetry-breaking','touching-threshold: stable non-sym POs','touching-threshold: unstable non-sym POs','touching-threshold: stable sym POs',...
-    'touching-threshold: unstable sym POs','period-doubling: stable Bif','period-doubling: unstable Bif',' torus Bif'...
-    },FontSize=12,FontWeight='bold')
-xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Courier',FontSize=16,FontWeight='bold')
+    {'symmetry-breaking','touching-threshold: stable non-symmetric POs','touching-threshold: unstable non-symmetric POs','touching-threshold: stable symmetric POs',...
+    'touching-threshold: unstable symmetric POs','period-doubling ','torus bifurcation',' torus bifurcation'...
+    },FontSize=18,FontWeight='bold')
+xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Courier',FontSize=26,FontWeight='bold')
+ylabel('$d_\mathrm{f}$','interpreter','latex','FontName','Courier',FontSize=26,FontWeight='bold')
+
 grid on
 ylim([0,1])
-set(gca,'FontWeight','bold')
+set(gca,'FontWeight','bold','LineWidth',2,'Box','on')
 nexttile([4 3])
 [~,its]=min(abs(pr_db-4.2));
 pi=perdb_branch.point(its);
 hold on
-plot(pi.mesh*pi.period,pi.profile(1:2,:),'LineWidth',2)
+plot(pi.mesh*pi.period,pi.profile(1:2,:),'LineWidth',4)
+plot(pi.mesh*pi.period,pi.profile(3:4,:),'--','LineWidth',2)
 yline(0.5,'k--','Threshold','LineWidth',3)
-xlabel('period','interpreter','latex','FontName','Courier',FontSize=16,FontWeight='bold')
+xlabel('period','FontName','Courier',FontSize=22,FontWeight='bold')
 %ylabel('$u_\mathrm{A}$ and $u_\mathrm{B}$ activity','interpreter','latex','FontName','Courier',FontSize=16,FontWeight='bold')
-title('(b)','interpreter','latex','FontSize',16)
-legend('$u_\mathrm{A}$','$u_\mathrm{B}$','interpreter','latex','FontName','Courier',FontSize=14,FontWeight='bold')
-set(gca, 'FontWeight','bold')
+title('(b)','FontName','Courier','FontSize',26,'FontWeight','bold')
+%legend('$u_\mathrm{A}$','$u_\mathrm{B}$','interpreter','latex','FontName','Courier',FontSize=28,FontWeight='bold')
+set(gca, 'FontWeight','bold','LineWidth',2,'Box','on')
 grid on
 ylim([0,1])
 xlim([0,pi.period])
 grid on
 nexttile([4 3])
 plot(sol23_test.x,sol23_test.y(1:2,:),...
-    sol23_test.x,sol23_test.y(3:4,:),'LineWidth',1);
+    sol23_test.x,sol23_test.y(3:4,:),'LineWidth',2);
 yline(0.5,'k--','LineWidth',1)
-xlabel('time(s)','interpreter','latex','FontName','Courier',FontSize=16,FontWeight='bold')
+legend('$u_\mathrm{A}$','$u_\mathrm{B}$','$s_\mathrm{A}$','$s_\mathrm{B}$','','interpreter','latex','FontName','Courier',FontSize=28,FontWeight='bold')
+xlabel('time(s)','FontName','Courier',FontSize=22,FontWeight='bold')
 grid on
-title('(c)','interpreter','latex','FontSize',16)
+title('(c)','FontName','Courier','FontSize',26,'FontWeight','bold')
+set(gca,'FontWeight','bold','LineWidth',2,'Box','on')
+%%
+save('period_doubling_bifPart3_include_dde23simulation.mat')
 %%
 clear
 load('period_doubling_bifPart3.mat')
@@ -235,3 +242,82 @@ yline(0.5,'k--','LineWidth',1)
 xlabel('time(s)','interpreter','latex','FontName','Courier',FontSize=16,FontWeight='bold')
 grid on
 title('(c)','interpreter','latex','FontSize',16)
+
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+stab_location=find(diff(nunst3_mm));
+sab_loc_sym=find(diff(nunst_pc3));
+figure(77)
+clf;
+tiledlayout(8,3,'TileSpacing','compact')
+nexttile([8 2])
+hold on 
+d1=plot(rp_b(nunst_sb==0),df_b(nunst_sb==0),'-',rp_b2,df_b2,'-','Color',clrs(1,:),'LineWidth',7);
+d4=plot(rp_bt2(sab_loc_sym(2):sab_loc_sym(3)),df_bt2(sab_loc_sym(2):sab_loc_sym(3)),'-','Color','m','LineWidth',6);
+d5=plot(rp_bt2(1:sab_loc_sym(2)),df_bt2(1:sab_loc_sym(2)),'-','Color',[0.5 0.5 0.5],'LineWidth',6);
+plot(rp_bt2(sab_loc_sym(3):end),df_bt2(sab_loc_sym(3):end),'-','Color',[0.5 0.5 0.5],'LineWidth',6);
+d6=plot(pr_dbbif(nunst_dbbif==0),df_dbbif(nunst_dbbif==0),'-',...
+    pr_dbbif2(nunst_dbbif2==0),df_dbbif2(nunst_dbbif2==0),'-','Color',clrs(3,:),'LineWidth',6);
+d7=plot(rp_btr(nunst_tr==0),df_btr(nunst_tr==0),'-','Color',clrs(5,:),'LineWidth',5);
+d8=plot(rp_bt2(tr_loc(2)),df_bt2(tr_loc(2)),'o','MarkerSize',20,'Color',clrs(7,:),'LineWidth',2,'MarkerFaceColor', 'k') ;
+d2=plot(pr3_m(1:stab_location(1)),df3_m(1:stab_location(1)),'k-','LineWidth',6)
+plot(pr3_m(stab_location(3):end),df3_m(stab_location(3):end),'k-','LineWidth',6)
+plot(pr3_m(stab_location(2):stab_location(3)),df3_m(stab_location(2):stab_location(3)),'k-','LineWidth',6)
+
+d3=plot(pr3_m(stab_location(1):stab_location(2)),df3_m(stab_location(1):stab_location(2)),'-','Color',[0.5,0.5,0.5],'LineWidth',4,'MarkerSize',15);
+%xlabel('$r_\mathrm{p}$','FontSize',18,'interpreter','latex')
+%title(' (a)','FontName','Cambria','FontSize',26,'FontWeight','normal')%'interpreter','latex',
+legend([d1(1),d2,d3,d4,d5,d6(1),d7(1),d8(1)],...
+    {'symmetry-breaking','touching-threshold: stable non-symmetric POs','touching-threshold: unstable non-symmetric POs','touching-threshold: stable symmetric POs',...
+    'touching-threshold: unstable symmetric POs','period-doubling ','torus bifurcation',' torus bifurcation'...
+    },FontSize=28,FontWeight='normal',FontName='Cambria')
+xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Cambria',FontSize=26,FontWeight='bold')
+ylabel('$d_\mathrm{f}$','interpreter','latex','FontName','Cambria',FontSize=26,FontWeight='bold')
+xlim([0,40])
+grid on
+ylim([0,1])
+set(gca,'FontWeight','bold','LineWidth',2,'Box','on')
+nexttile([2 1])
+[~,its]=min(abs(pr_db-4.2));
+pi=perdb_branch.point(its);
+hold on
+plot(pi.mesh*pi.period,pi.profile(1:2,:),'LineWidth',4)
+plot(pi.mesh*pi.period,pi.profile(3:4,:),'--','LineWidth',2)
+yline(0.5,'k--','Threshold','LineWidth',3)
+xlabel('period','FontName','Cambria',FontSize=22,FontWeight='bold')
+%title('(b)','FontName','Cambria','FontSize',26,'FontWeight','normal'),
+%legend('$u_\mathrm{A}$','$u_\mathrm{B}$','interpreter','latex','FontName','Courier',FontSize=28,FontWeight='bold')
+set(gca, 'FontWeight','bold','LineWidth',2,'Box','on')
+grid on
+ylim([0,1])
+xlim([0,pi.period])
+grid on
+nexttile([2 1])
+plot(sol23_test.x,sol23_test.y(1:2,:),...
+    sol23_test.x,sol23_test.y(3:4,:),'LineWidth',2);
+yline(0.5,'k--','LineWidth',1)
+legend('$u_\mathrm{A}$','$u_\mathrm{B}$','$s_\mathrm{A}$','$s_\mathrm{B}$','',....
+    'interpreter','latex','FontName','Courier',FontSize=28,FontWeight='bold')
+xlabel('time(s)','FontName','Cambria',FontSize=22,FontWeight='bold')
+grid on
+%title('(c)','FontName','Cambria','FontSize',26,'FontWeight','normal')
+set(gca,'FontWeight','bold','LineWidth',2,'Box','on')
+%%%%%%%%%%
+nexttile([4 1])
+hold on
+plot(pr_m,df_m,'-','Color',clrs2(6,:),'LineWidth',6)
+plot(pr3_m,df3_m,'k-','LineWidth',5)
+%legend({sprintf('PB: (t_{d},D)=(0.022,0.015)'),....
+  %  sprintf('PB: (t_{d},D)=(0.022,0.05)'),},...
+    %'Fontname','Courier','FontSize',26)
+xlabel('$r_\mathrm{p}$','FontSize',30,'interpreter','latex','FontName','Courier')
+ylabel('$d_\mathrm{f}$','FontSize',30,'interpreter','latex','FontName','Courier') 
+text(10, 0.85, {'Comparison of', 'perceptual boundary'}, 'FontSize', 20, 'Fontname','Cambria','BackgroundColor', 'non', 'EdgeColor', 'non','FontWeight','bold');
+%title('(d)','FontName','Cambria','FontSize',26,'FontWeight','normal')
+
+grid on 
+set(gca,'FontWeight','bold', 'LineWidth',2,'Box','on')

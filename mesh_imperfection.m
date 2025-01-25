@@ -101,8 +101,8 @@ set(gca,'LineWidth',2,'FontSize',20,'FontWeight','bold',...
 mbrown= [0.65, 0.33, 0.13];
 pclr=[0.75, 0, 0.75];
 figure(505);clf;
-tiledlayout(6,7,"TileSpacing","compact");
-nexttile([6,3]);
+tiledlayout(6,8,"TileSpacing","compact");
+nexttile([6,4]);
 hold on;grid on
 plt1=plot(PRsy_ax(1:bif_loc),ysy_ax(1:bif_loc),'.-','Color',clrs(1,:),'MarkerSize',30);
 plt2=plot(PRsy_ax(bif_loc:end),ysy_ax(bif_loc:end),'.-','Color',clrs(5,:),'MarkerSize',30);
@@ -112,13 +112,15 @@ plt5=plot(PRsy_ax(bif_loc-1),ysy_ax(bif_loc-1),'^','Color','k','MarkerFaceColor'
 plt6=plot(PRsy_ax(1),ysy_ax(1),'^','Color','k','MarkerFaceColor','red','MarkerSize',20);
 xlim([14.5,18])
 ylim([0.638,0.665])
-plt_text={'symmetric POs: stable','non-symmetric POs: stable','symmetric POs: unstable','symmetry-breaking'};
-plt_vec=[plt1(1);plt2(1);plt3(1);plt4(1)];
-legend(plt_vec,plt_text,'Interpreter','latex','EdgeColor',0.5*[1,1,1],'FontSize',24)
-xlabel('$r_\mathrm{p}$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold')
-ylabel('max$(u_\mathrm{A})$','interpreter','latex','FontName','Courier',FontSize=20,FontWeight='bold');%Cambria
-set(gca,'FontSize',20,'FontWeight','bold','FontName','Courier', 'LineWidth',2,'XTickLabel', [], 'YTickLabel', [])
-title('(a)','FontSize',20,'FontName','Cambria')
+plt_text={'symmetric POs: stable','non-symmetric POs: stable','symmetric POs: unstable','symmetry-breaking',...
+    'starting point: panle (b)', 'symmetric PO: panel (c)'};
+plt_vec=[plt1(1);plt2(1);plt3(1);plt4(1);plt6;plt5];
+legend(plt_vec,plt_text,'Interpreter','latex','EdgeColor',0.5*[1,1,1],'FontSize',26)
+xlabel('$r_\mathrm{p}$','interpreter','latex','FontSize',30)
+title('(a)','FontSize',26)
+ylabel('max$(u_\mathrm{A})$','interpreter','latex','FontSize',30)
+set(gca,'FontWeight','bold','FontName','Courier', 'LineWidth',2,'XTickLabel', [], 'YTickLabel', [], ...
+    'Box','on')
 %%%%%%%%%%%%%
 [~,ind_maxua]=max(pt1.profile(1,:));
 [~,ind_maxub]=max(pt1.profile(2,:));
@@ -129,12 +131,13 @@ plot(pt1.mesh*pt1.period,pt1.profile(1:2,:),'LineWidth',4)
 yline(0.5,'k--','Threshold','LineWidth',3)
 xlim([0,pt1.period])
 ylim([0,1])
-xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
+xticks([pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-xlabel('period')
-title('(b)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','LineWidth',2)
+ax.FontSize=14;
+xlabel('period','FontSize',18)
+title('(b)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','LineWidth',2,'Box','on')
 %%%%%%%%%%%%%%%
 [~,ind_maxua2]=max(pt2.profile(1,:));
 [~,ind_maxub2]=max(pt2.profile(2,:));
@@ -145,15 +148,15 @@ plot(pt2.mesh*pt2.period,pt2.profile(1:2,:),'LineWidth',4)
 yline(0.5,'k--','Threshold','LineWidth',3)
 xlim([0,pt2.period])
 ylim([0,1])
-xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
+xticks([pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-legend('$u_\mathrm{A}$','$u_\mathrm{A}$','Interpreter','latex','FontSize',18,'Location','Best',...
-    'Location','northeastoutside')
-xlabel('period')
-title('(c)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','LineWidth',2)
-% %%%%%%%%%%%
+ax.FontSize=14;
+xlabel('period','FontSize',18)
+legend('$u_\mathrm{A}$','$u_\mathrm{B}$','Interpreter','latex','Location','northeastoutside')
+title('(c)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','LineWidth',2,'Box','on')
+% %%%%%%%%%%
 nexttile([2,2])
 ntfine=100001;
 tcoarse=pt1.mesh(1:pt1.degree:end);
@@ -168,13 +171,13 @@ hold on; grid on
 plot(t1,fnval(m,t1),'-','Color',clrs(5,:),'LineWidth',5)
 plot(t1,fnval(m,t2(1:end-1)),'-','Color',clrs(7,:),'LineWidth',3)
 yline(1,'k--','LineWidth',2)
-xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2])
+xticks([pt1.mesh(ind_maxua)*pt1.period,pt1.period/2])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-xlabel('half-period')
-text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',18,'FontWeight','bold')
-title('(d)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','box','off','LineWidth',2)
+xlabel('half-period','FontSize',18)
+text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',20,'FontWeight','bold')
+title('(d)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','box','off','LineWidth',2,'Box','on')
 %legend('$m(t)$','$m(t+0.5)$','Interpreter','latex')
 xlim([0,pt1.period/2])
 ylim([0,8])
@@ -192,13 +195,13 @@ hold on; grid on
 plot(t1pt2,fnval(mpt2,t1pt2),'-','Color',clrs(5,:),'LineWidth',5)
 plot(t1pt2,fnval(mpt2,t2pt2(1:end-1)),'-','Color',clrs(7,:),'LineWidth',3)
 yline(1,'k--','LineWidth',2)
-xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2])
+xticks([pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-xlabel('half-period')
-text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',18,'FontWeight','bold')
-title('(e)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','LineWidth',2)
+xlabel('half-period','FontSize',18)
+text(0.04,1.9,'$y=1$','Interpreter','latex','FontSize',20)
+title('(e)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','LineWidth',2,'Box','on')
 legend('$m(t)$','$m(t+0.5)$','Interpreter','latex',...
     'Location','northeastoutside')
 xlim([0,pt2.period/2])
@@ -210,13 +213,13 @@ yline(0,'k--','LineWidth',4)
 plot(t1,fnval(m,t1)-fnval(m,t2(1:end-1)),'LineWidth',5)
 xlim([0,pt1.period/2])
 ylim([-3,4]);
-xticks([0,pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
+xticks([pt1.mesh(ind_maxua)*pt1.period,pt1.period/2,pt1.mesh(ind_maxub)*pt1.period,pt1.period])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-xlabel('half-period')
+xlabel('half-period','FontSize',18)
 %legend('','$m(t)-m(t+0.5)$','Interpreter','latex')
-title('(f)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','LineWidth',2)
+title('(f)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','LineWidth',2,'Box','on')
 %
 nexttile([2,2])
 hold on; grid on
@@ -224,13 +227,13 @@ yline(0,'k--','LineWidth',4)
 plot(t1pt2,fnval(mpt2,t1pt2)-fnval(mpt2,t2pt2(1:end-1)),'LineWidth',5)
 xlim([0,pt2.period/2])
 ylim([-3,4]);
-xticks([0,pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
+xticks([pt2.mesh(ind_maxua2)*pt2.period,pt2.period/2,pt2.mesh(ind_maxub2)*pt2.period,pt2.period])
 ax = gca;
 ax.XAxis.TickLabelFormat='%0.2f';
-xlabel('half-period')
+xlabel('half-period','FontSize',18)
 legend('','$m(t)-m(t+0.5)$','Interpreter','latex','Location','northeastoutside','FontSize',18)
-title('(g)')
-set(gca,'FontSize',18,'FontWeight','bold','FontName','Courier','LineWidth',2)
+title('(g)','FontSize',26)
+set(gca,'FontWeight','bold','FontName','Courier','LineWidth',2,'Box','on')
 %% %%%%%%
 
 save('imperfection_in_mesh.mat')

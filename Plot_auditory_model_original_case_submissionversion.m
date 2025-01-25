@@ -12,7 +12,7 @@ clear;
             [base,'Supporting_functions']);
 %%
 %load('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
-load('branching_towrds_asymmetric_sols_original_case_coj.mat')
+load('branching_towrds_asymmetric_sols_original_case.mat')
 load('sym_breaking_original_case_try2.mat')
 load('identifying_solutions_in_regions_try2.mat')
 %load('tracking_threshold_crossing_asymmetric_try2.mat')
