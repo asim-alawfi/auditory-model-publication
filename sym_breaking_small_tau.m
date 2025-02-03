@@ -128,8 +128,8 @@ mbranch1=br_contn(mfuncs,mbranch1,1000);
 %%
 rp_ss_tau=arrayfun(@(x)x.parameter(in.PR),mbranch1.point);
 df_ss_tau=arrayfun(@(x)x.parameter(in.df),mbranch1.point);
-%
-figure(70)
+%%
+figure(708)
 %clf; 
 hold on
 plot(rp_ss_tau,df_ss_tau,'k.','MarkerSize',5)
@@ -138,3 +138,14 @@ plot(rp_ss_tau,df_ss_tau,'k.','MarkerSize',5)
 mbranch=br_remove_extracolumns(mbranch);
 mbranch1=br_remove_extracolumns(mbranch1);
 save('sym_breaking_small_tau_part3.mat')
+%%
+for i=1:2:length(mbranch1.point)
+    pt=mbranch1.point(i);
+    figure(9)
+    clf;
+    hold on; grid on
+plot(pt.mesh*pt.period,pt.profile(1:2,:),'LineWidth',2)
+yline(0.5,'k','LineWidth',1)
+ylim([0,1])
+title('pr=',pt.parameter(in.PR))
+end
