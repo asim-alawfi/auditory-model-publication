@@ -23,7 +23,7 @@ Rsym=[0,1,0,0,0,0;1,0,0,0,0,0;0,0,0,1,0,0;0,0,1,0,0,0;0,0,0,0,-1,0;0,0,0,0,0,-1]
 xdim=length(x0);
 % symmetric conditios
 psolsym=@(p,pref)dde_psol_lincond(p,xdim,'profile','trafo',Rsym,'shift',[1,2],...
-    'condprojint',linspace(0.1,0.5,2)'*[1,1],'condprojmat',[1,0,0,0,0,0]);
+    'condprojint',linspace(0.1,0.25,2)'*[1,1],'condprojmat',[1,0,0,0,0,0]);
 addprefix=@(p,args)reshape(cat(1,cellfun(@(s)[p,'.',s],args(1:2:end-1),...
     'UniformOutput',false),args(2:2:end)),1,[]);
 %% picking up a periodic solution from dde23 and continuing computation in PR (here df=0.73).
@@ -124,9 +124,16 @@ mbr_wbifs=br_remove_extracolumns(mbr_wbifs);
 %save('branch_off_pos_original_case_and_threshold_crossing.mat')
 %
 save('branch_of_sympos_original_case_and_threshold_crossing_coj.mat')
+%%
+pt=po2_symmetry.point(120);
 
+[r,J]=psolsym(pt,pt)
 
+%%
+ J1=J(1).profile(1,55:61)
+J2=J(1).profile(2,289:301)
+%%
+s1=sum(J(1).profile,2)
 
-
-
-
+%%
+v=dde_coll_eva(pt.profile,pt.mesh,[0.1,0.6],pt.degree)
