@@ -106,29 +106,10 @@ parbd={'min_bound',[in.PR,1;in.df,0.003],'max_bound',[in.PR,75; in.df,1],...
 mbranch=mbranch_ini;
 figure(8)
 hold on
-mbranch=br_contn(mfuncs,mbranch,500);
-
-
-%%
-% mbranch.parameter.max_step(4)=0.02;
-% mbranch.parameter.max_step(5)=0.02;
-% mbranch.parameter.max_step(end)=0.02;
-figure(8)
+mbranch=br_contn(mfuncs,mbranch,1500);
 mbranch=br_rvers(mbranch);
 mbranch=br_contn(mfuncs,mbranch,1000);
-%%
-% clear mbranch1
-% mbranch=br_reorder(mbranch,in.PR);
-% rp_ss_tau=arrayfun(@(x)x.parameter(in.PR),branch.point);
-% [~,it]=min(abs(rp_ss_tau-61.5092));
-% mbranch1=br_remove_points(mbranch,in.PR,it);
-% %%
-% mbranch1.parameter.max_step(4)=0.05;
-% mbranch1.parameter.max_step(5)=0.05;
-% mbranch.parameter.max_step(end)=0.05;
-% %%
-% figure(70)
-% mbranch1=br_contn(mfuncs,mbranch1,1000);
+
 %%
 rp_ss_tau=arrayfun(@(x)x.parameter(in.PR),mbranch.point);
 df_ss_tau=arrayfun(@(x)x.parameter(in.df),mbranch.point);
@@ -137,6 +118,8 @@ figure(708)
 %clf; 
 hold on
 plot(rp_ss_tau,df_ss_tau,'k.','MarkerSize',5)
+xlim([0,40])
+%%
 mbranch=br_remove_extracolumns(mbranch);
 mbranch1=br_remove_extracolumns(mbranch);
 save('sym_breaking_small_tau_coh_and_fiss.mat')
