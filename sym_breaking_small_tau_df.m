@@ -137,8 +137,6 @@ figure(708)
 %clf; 
 hold on
 plot(rp_ss_tau,df_ss_tau,'k.','MarkerSize',5)
-%%
-
 mbranch=br_remove_extracolumns(mbranch);
 mbranch1=br_remove_extracolumns(mbranch);
 save('sym_breaking_small_tau_coh_and_fiss.mat')
