@@ -368,26 +368,6 @@ xticks([0.026,0.053])
 ylim([0,1])
 yticks([0,0.5,1])
 %%
-%mbranch_df_wbifs
-
-% % tiledlayout(1,2)
-% % nexttile
-% % plot(pr_m(nunst_m==0),df_m(nunst_m==0),'k--','LineWidth',1);
-% figure(555)
-% clf;
-% for i=1:length(mbranch_df_wbifs.point) 
-%     subplot(1,2,1)
-%     hold on
-%     plot(pr_m(nunst_m==0),df_m(nunst_m==0),'k--','LineWidth',1);
-%     plot(pr_m(i),df_m(i),'k.','MarkerSize',15)
-%     hold on
-%     subplot(1,2,2)
-%     po=mbranch_df_wbifs.point(i);
-%     plot(po.mesh,po.profile(1:2,:),'LineWidth',2)
-%     yline(0.5,'k--','LineWidth',2)
-%     drawnow
-% end
-%%
 inds=find(diff(sign(pr_m-7)));
 figure(999)
 clf;
