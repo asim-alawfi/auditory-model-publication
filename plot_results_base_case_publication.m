@@ -154,7 +154,7 @@ set_one_bif={'LineWidth',1.5,'Box','on','FontSize',8};
 ft=11;
 figure(320)
 clf; 
-tiledlayout(2,1)
+tiledlayout(2,1,'TileSpacing','compact')
 nexttile
 hold on
 for i=1:length(second_peak)
@@ -532,3 +532,77 @@ xticks([0,p_pr2.period/2,p_pr2.period])
 xtickformat('%3.2g')
 ylim([0,1])
 yticks([])
+%%
+int_A2intv=dde_lincond_struct(size(mbranch_df_wbifs.point(1).profile,1),'profile','trafo',0,...
+    'shift',[1,2],'condprojmat',-1,'stateproj',[1,0,0,0,0,0],'condprojint',[0.5,1]);
+int_B1intv=dde_lincond_struct(size(mbranch_df_wbifs.point(1).profile,1),'profile','trafo',0,...
+    'shift',[1,2],'condprojmat',-1,'stateproj',[0,1,0,0,0,0],'condprojint',[0,0.5]);
+yax_int_A2intv=arrayfun(@(x)dde_psol_lincond(x,int_A2intv),mbranch_df_wbifs.point);
+yax_int_B1intv=arrayfun(@(x)dde_psol_lincond(x,int_B1intv),mbranch_df_wbifs.point);
+% 
+yax_touchbrn=yax_int_A2intv-yax_int_B1intv;
+set_one_bif = {'LineWidth', 1.5, 'Box', 'on', 'FontSize', 12};
+ft = 14;
+
+figure(13)
+clf
+tl = tiledlayout(2,1,'TileSpacing','compact');
+nexttile
+hold on
+clrs1=colormap(hot);%colormap(jet)
+clrs2=colormap(gray);%colormap(gray)
+tmp = @(x) round(x * 255 + 1);
+
+mscal1=tmp((second_peak - min(second_peak)) / (max(second_peak) - min(second_peak)));
+for i = 1:length(second_peak)
+    plot(rp_symbk1(i), df_symbk1(i), 'o', 'Color', clrs1(mscal1(i),:), 'MarkerSize', 8,'LineWidth',1.5);
+end
+yax_touchbrn2=yax_touchbrn;
+mscal2=tmp((yax_touchbrn2 - min(yax_touchbrn2)) / (max(yax_touchbrn2) - min(yax_touchbrn2)));
+for i = 1:length(yax_touchbrn2)
+    plot(pr_m(i), df_m(i), '.', 'Color', clrs2(mscal2(i),:), 'MarkerSize', 11);
+end
+colormap(gca, clrs1);
+cb1 = colorbar('eastoutside');
+cb1.Limits = [min(second_peak), max(second_peak)];
+cb1.Label.FontSize = 12;
+cb1.FontSize = 10;
+clim([min(second_peak), max(second_peak)]);
+ax1 = gca;
+ax2 = axes('Position', get(ax1, 'Position'), ...
+    'Color', 'none', 'XColor', 'none', 'YColor', 'none', 'Box', 'off');
+colormap(ax2, clrs2);
+cb2 = colorbar(ax2, 'westoutside');
+cb2.Limits = [min(yax_touchbrn2), max(yax_touchbrn2)];
+cb2.Label.FontSize = 12;
+cb2.FontSize = 10;
+clim(ax2, [min(yax_touchbrn2), max(yax_touchbrn2)]);
+cb2.Position(3) = cb1.Position(3);                       
+cb2.Position(1) = cb2.Position(1) - 6* cb2.Position(3);
+set(ax2, 'Visible', 'off');
+axes(ax1)
+po = Symbk_org_br_with_stab.point(550);
+plot(rp_symbk1(550), df_symbk1(550), 'k.', 'MarkerSize', 35)
+ylim([0,1])
+yticks([0, 0.5, 1])
+set(gca, set_one_bif{:});
+title('A', 'FontSize', ft, 'FontWeight', 'normal');
+xlabel('$r_\mathrm{p}$','interpreter','latex',FontSize=18,FontWeight='normal')
+ytic=ylabel('$d_\mathrm{f}$','interpreter','latex',FontSize=18,FontWeight='normal');
+pos = ytic.Position;
+ytic.Position = [pos(1) + 1.5, pos(2) + 0.2, pos(3)];
+nexttile
+hold on
+plot(po.mesh * po.period, po.profile(1:2,:), 'LineWidth', 2)
+tv = sympo_uA_extrema{550};
+plot(tv(3)*po.period, second_peak(550), 'k.', 'MarkerSize', 35)
+yline(0.50, 'k--', 'LineWidth', 2, 'FontSize', 14)
+yline(second_peak(550), '--', 'Color', 0.5 * [1 1 1], 'LineWidth', 1.5)
+yticks([0, 0.45, 0.50, 1])
+xticks([0, 0.14, 0.28])
+xlim([0, 0.28])
+set(gca, set_one_bif{:})
+xlabel('time (s)', 'FontSize', ft, 'FontWeight', 'normal')
+legend('$u_\mathrm{A}$','$u_\mathrm{B}$','','interpreter','latex','FontSize',ft,'FontWeight','normal')
+title('B', 'FontSize', ft, 'FontWeight', 'normal');
+%%
