@@ -23,9 +23,12 @@ mbrown= [0.65, 0.33, 0.13];
 
 %% plot one-parameter bifurcation in PR and df=0.73 symmetric and asymmetric solutions
 rp2_x=arrayfun(@(x)x.parameter(in.PR),po2_symmetry_wbifs.point);
+
 max2_y=arrayfun(@(x)max(x.profile(1,:)),po2_symmetry_wbifs.point);
 min2_y2=arrayfun(@(x)min(x.profile(1,:)),po2_symmetry_wbifs.point);
 rp_unsym=arrayfun(@(x)x.parameter(in.PR),nonsymper_wbifs.point);
+rdf_unsym=arrayfun(@(x)x.parameter(in.df),nonsymper_wbifs.point);
+
 y_unsym=arrayfun(@(x)max(x.profile(1,:)),nonsymper_wbifs.point);
 y2_unsym=arrayfun(@(x)min(x.profile(1,:)),nonsymper_wbifs.point);
 [~,it_intg]=min(abs(rp2_x-3));
@@ -46,7 +49,9 @@ yax_Sint_B2=arrayfun(@(x)dde_psol_lincond(x,Sint_B2),po2_symmetry_wbifs.point);
 non_sym_Sint_A1=arrayfun(@(x)dde_psol_lincond(x,Sint_A1),nonsymper_wbifs.point);
 non_sym_Sint_B2=arrayfun(@(x)dde_psol_lincond(x,Sint_B2),nonsymper_wbifs.point);
 yax_sym=yax_Sint_A1-yax_Sint_B2;
+yax_sym2=2*yax_sym;
 yax_nonsym=non_sym_Sint_A1-non_sym_Sint_B2;
+yax_nonsym2=2*yax_nonsym;
 %%
 bif_loc=find(diff(nunst3_sym));
 grayColor=[0.4 0.4 0.4];
@@ -61,17 +66,24 @@ clf;
 tiledlayout(4,2,'TileSpacing','compact')
 nexttile([2,2])
 hold on
-plot(rp2_x(1:bif_loc(2)),yax_sym(1:bif_loc(2)),'-','Color',clrs2(4,:),'LineWidth',3)
-plot(rp2_x(bif_loc(3):end),yax_sym(bif_loc(3):end),'-','Color',clrs2(4,:),'LineWidth',3)
-plot(rp2_x(nunst3_sym>=1),yax_sym(nunst3_sym>=1),'k--','LineWidth',3)%,'Color',grayColor)%,'LineWidth',1)
-plot(rp_unsym(uns_um==0),yax_nonsym(uns_um==0),'.-','Color',clrs2(5,:),'LineWidth',3)%,'MarkerSize',10)%,'g.')%,'MarkerS',5)
-plot(rp2_x(bif_loc(2:end)),yax_sym(bif_loc(2:end)),'k.','MarkerSize',40)
-plot(rp2_x(it_intg-12),yax_sym(it_intg-12),'.','Color','red','MarkerSize',40)
-plot(rp2_x(it_seg+8),yax_sym(it_seg+8),'.','Color',mbrown,'MarkerS',40)
-plot(rp_unsym(it_bis),yax_nonsym(it_bis),'x','Color','red','LineWidth',3,'MarkerSize',15)
+plot(rp2_x(1:bif_loc(2)),yax_sym2(1:bif_loc(2)),'-','Color',clrs2(4,:),'LineWidth',3)
+plot(rp2_x(bif_loc(3):end),yax_sym2(bif_loc(3):end),'-','Color',clrs2(4,:),'LineWidth',3)
+plot(rp2_x(nunst3_sym>=1),yax_sym2(nunst3_sym>=1),'k--','LineWidth',3)%,'Color',grayColor)%,'LineWidth',1)
+plot(rp_unsym(uns_um==0),yax_nonsym2(uns_um==0),'.-','Color',clrs2(5,:),'LineWidth',3)%,'MarkerSize',10)%,'g.')%,'MarkerS',5)
+plot(rp2_x(bif_loc(2:end)),yax_sym2(bif_loc(2:end)),'k.','MarkerSize',40)
+plot(rp2_x(it_intg-12),yax_sym2(it_intg-12),'.','Color','red','MarkerSize',40)
+plot(rp2_x(it_seg+8),yax_sym2(it_seg+8),'.','Color',mbrown,'MarkerS',40)
+plot(rp_unsym(it_bis),yax_nonsym2(it_bis),'x','Color','red','LineWidth',3,'MarkerSize',15)
+plot(rp2_x(78),yax_sym2(78),'mx','MarkerSize',15,'LineWidth',3)
+plot(rp_unsym(196),yax_nonsym2(196),'b.','MarkerSize',30,'LineWidth',3)
+plot(rp_unsym(196),-yax_nonsym2(196),'b.','MarkerSize',30,'LineWidth',3)
+plot(rp_unsym(121),yax_nonsym2(121),'b.','MarkerSize',30,'LineWidth',3)
+plot(rp_unsym(121),-yax_nonsym2(121),'b.','MarkerSize',30,'LineWidth',3)
+
 set_one_bif={'LineWidth',2,'Box','on','FontSize',10,'FontWeight','normal'};
 set(gca,set_one_bif{:})
-legend('stable sym','','unstable sym','stable non-sym','sym-breaking','FontSize',ft,'FontWeight','normal')%,'FontName','Times New Roman')%,FontWeight='bold')
+legend('stable sym','','unstable sym','stable non-sym','sym-breaking',...
+    '','','','sym PO with touching \theta','non-sym PO with touching \theta','FontSize',ft,'FontWeight','normal')%,'FontName','Times New Roman')%,FontWeight='bold')
 %\mu_{\rotatebox[origin=c]{180}{T}}
 xlabel('$r_\mathrm{p}$','interpreter','latex',FontSize=17,FontWeight='bold')
 ylabel('$\mu_{\bot}(t)$', ...
@@ -80,7 +92,7 @@ ylabel('$\mu_{\bot}(t)$', ...
        'FontWeight','bold');
 xlim([0,rp2_x(1)])
 title('A','FontSize',ft,'FontWeight','normal')
-yticks([-0.02,0,0.02])
+yticks(2*[-0.02,0,0.02])
 xlim([1,20])
 
 % %%%%%%%%%%%%%%%%%%%%%
@@ -281,8 +293,11 @@ plot(p_pr2.parameter(in.PR),p_pr2.parameter(in.df),'.','color',0.45*[1 1 1],'Mar
 plt_text={'sym-breaking','touching \theta: stable sym','touching \theta: unstable sym ','touching \theta: stable non-sym','touching \theta from below: stable sym'};
 plt_vect=[plt1;plt_thsy;plt_thsy2;plt_thunsym;plt_thup];
 legend(plt_vect,plt_text,'FontSize',ft,'FontWeight','normal')
+plot(nonsymper_wbifs.point(114).parameter(in.PR),nonsymper_wbifs.point(114).parameter(in.df),'.',...
+    'Color','r','MarkerSize',35)
 %%%%%%%%%%%%
-
+% plot(rp22_x(78),df22_x(78),'mx','MarkerSize',15,'LineWidth',3)
+% plot(rp_unsym(196),df_unsym(196),'kx','MarkerSize',15,'LineWidth',3)
 set(gca, set_one_bif{:})
 text(5.5,0.1 ,'1 (int)', 'FontSize', 13, 'Color', 0.4*[1 1 1],'FontWeight','bold')
 text(7,0.25,'2 (bist)', 'FontSize', 13, 'Color', 0.4*[1 1 1],'Rotation',0,'FontWeight','bold')
@@ -540,17 +555,18 @@ int_B1intv=dde_lincond_struct(size(mbranch_df_wbifs.point(1).profile,1),'profile
 yax_int_A2intv=arrayfun(@(x)dde_psol_lincond(x,int_A2intv),mbranch_df_wbifs.point);
 yax_int_B1intv=arrayfun(@(x)dde_psol_lincond(x,int_B1intv),mbranch_df_wbifs.point);
 % 
-yax_touchbrn=yax_int_A2intv-yax_int_B1intv;
+yax_touchbrn=yax_int_B1intv-yax_int_A2intv;%yax_int_A2intv-yax_int_B1intv;
+%%
 set_one_bif = {'LineWidth', 1.5, 'Box', 'on', 'FontSize', 12};
-ft = 14;
+ft = 15;
 
 figure(13)
 clf
 tl = tiledlayout(2,1,'TileSpacing','compact');
 nexttile
 hold on
-clrs1=colormap(hot);%colormap(jet)
-clrs2=colormap(gray);%colormap(gray)
+clrs1=colormap(autumn);%colormap(jet)
+clrs2=colormap(winter);%colormap(gray)
 tmp = @(x) round(x * 255 + 1);
 
 mscal1=tmp((second_peak - min(second_peak)) / (max(second_peak) - min(second_peak)));
@@ -560,7 +576,7 @@ end
 yax_touchbrn2=yax_touchbrn;
 mscal2=tmp((yax_touchbrn2 - min(yax_touchbrn2)) / (max(yax_touchbrn2) - min(yax_touchbrn2)));
 for i = 1:length(yax_touchbrn2)
-    plot(pr_m(i), df_m(i), '.', 'Color', clrs2(mscal2(i),:), 'MarkerSize', 11);
+    plot(pr_m(i), df_m(i), '.', 'Color', clrs2(mscal2(i),:), 'MarkerSize', 12);
 end
 colormap(gca, clrs1);
 cb1 = colorbar('eastoutside');
@@ -577,8 +593,9 @@ cb2.Limits = [min(yax_touchbrn2), max(yax_touchbrn2)];
 cb2.Label.FontSize = 12;
 cb2.FontSize = 10;
 clim(ax2, [min(yax_touchbrn2), max(yax_touchbrn2)]);
-cb2.Position(3) = cb1.Position(3);                       
-cb2.Position(1) = cb2.Position(1) - 6* cb2.Position(3);
+% cb2.Position(3) = cb1.Position(3);                       
+ % cb2.Position(1) = cb2.Position(1) - 5* cb2.Position(3);
+
 set(ax2, 'Visible', 'off');
 axes(ax1)
 po = Symbk_org_br_with_stab.point(550);
@@ -587,13 +604,15 @@ ylim([0,1])
 yticks([0, 0.5, 1])
 set(gca, set_one_bif{:});
 title('A', 'FontSize', ft, 'FontWeight', 'normal');
-xlabel('$r_\mathrm{p}$','interpreter','latex',FontSize=18,FontWeight='normal')
-ytic=ylabel('$d_\mathrm{f}$','interpreter','latex',FontSize=18,FontWeight='normal');
+xlabel('$r_\mathrm{p}$','interpreter','latex',FontSize=17,FontWeight='normal')
+ytic=ylabel('$d_\mathrm{f}$','interpreter','latex',FontSize=17,FontWeight='normal');
 pos = ytic.Position;
-ytic.Position = [pos(1) + 1.5, pos(2) + 0.2, pos(3)];
+ytic.Position(1)=-0.02;% = [pos(1) + 1.8, pos(2) + 0.2, pos(3)];
+ytic.Position(2)=0.7;
+
 nexttile
 hold on
-plot(po.mesh * po.period, po.profile(1:2,:), 'LineWidth', 2)
+plot(po.mesh * po.period, po.profile(1:2,:), 'LineWidth', 3)
 tv = sympo_uA_extrema{550};
 plot(tv(3)*po.period, second_peak(550), 'k.', 'MarkerSize', 35)
 yline(0.50, 'k--', 'LineWidth', 2, 'FontSize', 14)
@@ -605,4 +624,52 @@ set(gca, set_one_bif{:})
 xlabel('time (s)', 'FontSize', ft, 'FontWeight', 'normal')
 legend('$u_\mathrm{A}$','$u_\mathrm{B}$','','interpreter','latex','FontSize',ft,'FontWeight','normal')
 title('B', 'FontSize', ft, 'FontWeight', 'normal');
+cb2.Position(1) = ax1.Position(1) - 0.075;  
+cb2.Position(2:4)=cb1.Position(2:4);
 %%
+% sympo_uA_extrema=arrayfun(@(p)dde_coll_roots(p,c_A,'diff',1)',po2_symmetry.point,'uniformoutput',false);
+% ua_eval=@(p,t)c_A*dde_coll_eva(p.profile,p.mesh,t(:)',p.degree); % evaluate u_A at t in point p
+% sympomax_ua=cellfun(@(p,t)max2(ua_eval(p,t)),num2cell(po2_symmetry.point),sympo_uA_extrema);
+% [~,theta_cross]=min(abs(sympomax_ua-(smaxval)));
+% pf=po2_symmetry.point(theta_cross);
+% figure(23)
+% clf
+% hold on
+% plot(pf.mesh*pf.period, pf.profile(1:2,:), 'LineWidth', 3)
+% yline(0.5,'--','LineWidth',1)
+%%
+uA_extrema=arrayfun(@(p)dde_coll_roots(p,c_A,'diff',1)',nonsymper_wbifs.point,'uniformoutput',false);
+ua_eval=@(p,t)c_A*dde_coll_eva(p.profile,p.mesh,t(:)',p.degree); % evaluate u_A at t in point p
+sympomax_ua=cellfun(@(p,t)max2(ua_eval(p,t)),num2cell(nonsymper_wbifs.point),uA_extrema);
+[~,it_cross2]=min(abs(sympomax_ua-smaxval));
+second_ua_peak=3;
+%%
+%%
+c_B=[0, 1, 0, 0, 0, 0];
+uB_extrema=arrayfun(@(p)dde_coll_roots(p,c_B,'diff',1)',nonsymper_wbifs.point,'uniformoutput',false);
+ub_eval=@(p,t)c_B*dde_coll_eva(p.profile,p.mesh,t(:)',p.degree); % evaluate u_A at t in point p
+sympomax_ub=cellfun(@(p,t)max2_ub(ub_eval(p,t)),num2cell(nonsymper_wbifs.point),uB_extrema);
+[~,it_cross2b]=min(abs(sympomax_ub-smaxval));
+%%
+
+%%
+figure(600)
+plot(rp2_x(theta_cross),yax_sym(theta_cross),'mx','MarkerSize',7,'LineWidth',1)
+%%
+% [branch,indbif,indmap,notcorrected]=br_bisection(pffuncs,nonsymper_wbifs,[117,118],'pfold','distance',1e-8)
+%%
+for i=1:length(nonsymper_wbifs.point)
+pf2=nonsymper_wbifs.point(i);
+figure(24)
+clf
+hold on
+plot(pf2.mesh*pf2.period, pf2.profile(1:2,:), 'LineWidth', 3)
+yline(0.5,'--','LineWidth',1)
+ title('i=',i)
+end
+
+
+
+
+
+

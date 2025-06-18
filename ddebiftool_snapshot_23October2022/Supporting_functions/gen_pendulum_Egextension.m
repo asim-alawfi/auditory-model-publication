@@ -1,0 +1,26 @@
+clear;
+    base=[pwd(),'\..\..\ddebiftool_snapshot_23October2022\'];
+    addpath([base,'ddebiftool'],...
+            [base,'ddebiftool_extra_psol'],...
+            [base,'ddebiftool_utilities'],...
+            [base,'ddebiftool_extra_rotsym'],...
+            [base,'ddebiftool_extra_nmfm'],...
+            [base,'ddebiftool_extra_symbolic'],...
+            [base,'ddebiftool_coco']);
+ntau=1;
+parnames={'a','b','tau'};
+cind=[parnames;num2cell(1:length(parnames))];
+in=struct(cind{:});
+%% Define system using symbolic algebra
+% define arbitrary variable names
+x=sym('x',[1,ntau+1]); % x(1):=x(t); x(2)=x(t-delay)
+y=sym('y',[1,ntau+1]); % y(1):=y(t); y(2)=y(t-delay)
+syms(parnames{:});
+par=sym(parnames);
+%%
+rhs=[y(1);...
+     sin(x(1))-cos(x(1))*(a*x(2)+b*y(2))];
+%% Defferentiate and generate code, exporting it to sym_auditory ( creat file with the same name, and continue)
+[fstr,erives]=dde_sym2funcs(rhs,[x;y],par,'filename','demo_pendulum_sym',...
+    'maxorder',3,'directional_derivative',true);
+
