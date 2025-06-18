@@ -296,9 +296,9 @@ load('tracking_threshold_crossing_asymmetric_try2.mat')
 % df_m=arrayfun(@(x)x.parameter(in.df),mbranch_df_wbifs.point);
 % pr_m=arrayfun(@(x)x.parameter(in.PR),mbranch_df_wbifs.point);
 %%
-ft=16;
-ft2=19;
-set_bif={'LineWidth',2,'Box','on','FontSize',10,'FontWeight','normal'};
+ft=14;
+ft2=17;
+set_bif={'LineWidth',2,'Box','on','FontSize',13,'FontWeight','normal'};
 
 fiss=readtable('fission.csv'); fiss=fiss{:,:}; [~,idx]=sort(fiss(:,2)); fiss=fiss(idx,:);
 coher=readtable('coherence.csv'); coher=coher{:,:}; [~,idx]=sort(coher(:,2)); coher=coher(idx,:);
