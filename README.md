@@ -37,12 +37,11 @@ The scripts should be run in a specific sequence to ensure proper execution. Thi
 3. `sym_breaking_original_case.m`
 4. `tracking_threshold_crossing_asymmetric.m`
 5. `identifying_Sols_in_different_regions.m`
-6. `Plot_auditory_model_original_case_submissionversion.m`
+6. `plot_results_base_case_publication.m`
 
 ### Set 2: One-parameter computations (for tone duration and delay) 
 1. `br_of_POs_different_values_TD_D_in_loop.m`
 2. `asymmetric_branches_case12.m`
-3. `plot_one_parameter_for_all_caes.m`
 
 ### Set 3: (rp, df)-parameter space computation (case TD=0.05) 
 1. `touching_theta_case_TD.m`
@@ -55,4 +54,6 @@ The scripts should be run in a specific sequence to ensure proper execution. Thi
 ### Set 5: (rp, df)-parameter space computation (case D = 0.05) 
 1. `touching_theta_case_D.m`
 2. `symmetry_breaking_for_case_D.m`
+### 
+1. plot_two_parameter_bif_results_for_other_cases.m
 
